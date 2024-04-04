@@ -3,6 +3,7 @@ Project 2 for Math 248
 Team:
 
 Josh Bowers
+Kendall Coleman
 Jamie Fuller
 Fralin Widener
 William Westerkamp
