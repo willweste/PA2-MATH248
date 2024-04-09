@@ -8,7 +8,7 @@ Created on Mon Apr  8 21:47:39 2024
 import numpy as np
 # Defining the Nonlinear Function
 def f(x):
-    return (np.exp(2*x-1)-(2*x**2)-(1/2))
+    return #insert function here
 
 # Implementing the Secant Method
 def secant_method(x0, x1, tol):
