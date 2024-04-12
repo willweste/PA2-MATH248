@@ -14,34 +14,6 @@ from devious_function import f
 import numpy as np
 import openpyxl as op
 
-Lex_will_Perish = op.load_workbook("Lex_will_Perish.xlsx")
-
-# create end_of_Lex
-workbook = Workbook()
-workbook.save(filename="end_of_Lex.xlsx")
-
-
-# TODO uncomment values and set them when excel file is made
-
-# r_k =
-# a_k =
-# b_k =
-
-# TODO uncomment all variables below once excel file has been made
-
-# calculate starting points
-
-# x_1 = r_k - a_k
-# x_2 = r_k + b_k
-
-# run three iterations of Bisection Method and Secant Method and store final iterates
-
-# b_k = bisection_method(x_1, x_2, 3)
-# s_k = secant_method(x_1, x_2, 3)
-
-# write into end_of_Lex excel file
-
-
 """ METHODS """
 
 
@@ -118,3 +90,59 @@ def secant_method(a, b, iterations):
 
     # return final iterate
     return x[i]
+
+
+""" MAIN """
+
+
+Lex_will_Perish = op.load_workbook("Lex_will_Perish.xlsx")
+Lex_sheet = Lex_will_Perish.worksheets[0]
+
+root_array = []
+a_array = []
+b_array = []
+
+for column in Lex_sheet.iter_cols():
+    column_title = column[0].value
+    # check column name
+    if column_title == "r_k":
+        for cell in column:
+            root_array.append(cell.value)
+    elif column_title == "a_k":
+        for cell in column:
+            a_array.append(cell.value)
+    elif column_title == "b_k":
+        for cell in column:
+            b_array.append(cell.value)
+
+# create end_of_Lex
+
+workbook = Workbook()
+workbook.save(filename="end_of_Lex.xlsx")
+worksheet = workbook.worksheets[0]
+
+for root in root_array:
+    # set values
+    root_index = root
+
+    r_k = root_array[root_index]
+    a_k = a_array[root_index]
+    b_k = b_array[root_index]
+
+   # calculate starting points
+
+    x_1 = r_k - a_k
+    x_2 = r_k + b_k
+
+    # run three iterations of Bisection Method and Secant Method and store final iterates
+
+    bs_k = bisection_method(x_1, x_2, 3)
+    sc_k = secant_method(x_1, x_2, 3)
+
+    # write into end_of_Lex excel file
+    r_k_cell = worksheet.cell(row=root_index, column=1)
+    r_k_cell.value = r_k
+    bs_k_cell = worksheet.cell(row=root_index, column=2)
+    bs_k_cell.value = bs_k
+    sc_k_cell = worksheet.cell(row=root_index, column=3)
+    sc_k_cell.value = sc_k
