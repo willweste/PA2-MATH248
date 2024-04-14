@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Apr  9 19:18:34 2024
+Created on Sat Apr 13 16:11:36 2024
 
 @author: joshb
 """
@@ -19,7 +19,7 @@ def df_2(x):
     return ((20*x**3) - (108*x**2) - (6*x) + 34)
 
 
-def Halley_Method(x0, tol):
+def Olver_Method(x0, tol):
     import numpy as np
 
     max_itt = 1000
@@ -31,22 +31,12 @@ def Halley_Method(x0, tol):
     k = 1
 
     while (error[k] > tol) and (k < max_itt):
-        x[k+1] = x[k] - (2 * f(x[k]) * df(x[k])) / \
-            (2*((df(x[k])**2) - f(x[k]) * df_2(x[k])))
+        x[k+1] = x[k] - (f(x[k])/df(x[k])) - (1/2) * \
+            (((f(x[k]))**2)*df_2(x[k]))/((df(x[k]))**3)
 
-        # print('error(', k, ')=', error[k])
         k = k+1
         error[k] = abs(x[k]-x[k-1])
 
-    # print('error[', k, ']=', error[k], '\n')
-
-    # print('k=', k)
     print('x[k]=', x[k])
 
-    return x[k]  # , error
-
-
-# x0 = float(input("Enter First Initial Guess: "))
-# tol = float(input("Enter the Tolerance: "))
-
-# Halley_Method(x0,tol)
+    return x[k]
