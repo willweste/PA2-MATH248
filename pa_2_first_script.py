@@ -37,7 +37,7 @@ olver_method_number = 2
 
 # run each value through newton's method and a fixed point method
 
-# converges to +-1.38750710558261
+# converges to -1.38750710558261
 if (Newton_Method_ex(-2, tol) == Olver_Method(-2, tol)):
     print("yay")
 
@@ -47,11 +47,11 @@ if (Newton_Method_ex(4, tol) == (np.floor(Halley_Method(5, 10**-14) * 10**14) / 
 
 # run each value through bisection method and a fixed point method
 
-# converges to +-0.51042934281782
+# converges to -0.51042934281782
 if (bisection(-1, 0, b_tol, b_tol) == (np.floor(fixedPointIteration1(-1, 10**-14) * 10**14) / 10**14)):
     print("test")
 
-# converges to +-8.91069640296029
+# converges to +8.91069640296029
 if (bisection(7, 9, b_tol, b_tol) == (np.floor(Halley_Method(9, 10**-14) * 10**14) / 10**14)):
     print("8.91069640296029")
     root_somenumber = bisection(7, 9, b_tol, b_tol)
