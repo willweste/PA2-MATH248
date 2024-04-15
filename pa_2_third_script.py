@@ -7,6 +7,7 @@ Members: Josh Bowers, Kendall Coleman, Jamie Fuller, William Westerkamp, and Fra
 """
 # imports
 from openpyxl import Workbook
+from openpyxl import load_workbook
 from pa_2_first_script import lock_box_codes
 import numpy as np
 import openpyxl as op
@@ -45,40 +46,32 @@ def directions_string(x, y):
     else:
         y_direction = "South"
 
-    return f"(x, y) = ({x}, {y}). Go {x_miles} {x_direction} and {y_miles} {y_direction}."
+    return f"(x, y) = ({x}, {y}).\nGo {x_miles} {x_direction} and {y_miles} {y_direction}."
 
 
-end_of_Lex = op.load_workbook("end_of_Lex.xlsx")
-end_of_Lex_sheet = end_of_Lex.worksheets[0]
+# load in Lex_will_Perish
+
+end_of_Lex = load_workbook("end_of_Lex.xlsx")
+Lex_sheet = end_of_Lex.worksheets[0]
 
 root_array = []
 bs_array = []
 sc_array = []
 
-for column in end_of_Lex_sheet.iter_cols():
-    column_title = column[0].value
-    # check column name
-    if column_title == "r_k":
-        for cell in column:
-            root_array.append(cell.value)
-    elif column_title == "bs_k":
-        for cell in column:
-            bs_array.append(cell.value)
-    elif column_title == "sc_k":
-        for cell in column:
-            sc_array.append(cell.value)
+for row in Lex_sheet.iter_rows(values_only=True):
+    root_array.append(row[0])
+    bs_array.append(row[1])
+    sc_array.append(row[2])
 
 # calculate y-coordinates
 y_array = []
-root_index = 0
-for root in root_array:
+
+for root_index, root in enumerate(root_array):
     # compute y-coordinate
-
+    y_cord = np.log(bs_array[root_index] - sc_array[root_index])
     # store y-coordinate
-
+    y_array.append(y_cord)
     # print out coordinates
-    directions_string(root_array[root_index], y_array[root_index])
-    print(f"The secret lock box comination is {lock_box_codes[root_index]}")
-
-    # increase counter
-    root_index = root_index + 1
+    print(directions_string(root_array[root_index], y_array[root_index]))
+    print(f"The secret lock box comination is {lock_box_codes[root_index]}.")
+    print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
