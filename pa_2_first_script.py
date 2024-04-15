@@ -18,6 +18,7 @@ from Halley_Method import Halley_Method2
 from Olvers_Method import Olver_Method
 from Bisection import bisection
 from Bisection import bisection2
+from Bisection import bisection3
 from newton_method_ex import Newton_Method_ex
 from newton_method_ex import Newton_Method_ex2
 from devious_function import f
@@ -67,17 +68,22 @@ if (truncate(bisection2(3, 3.1478, b_tol, b_tol), 14) == truncate(fixedPointIter
     root_7 = -1 * truncate(bisection2(3, 3.1478, b_tol, b_tol), 14)
     print(f"This root converges to {root_7} and {root_6}.")
 
+# converges to +0.5
+if (bisection3(0, 1, b_tol, b_tol) == Altered_Newton_Method(1, tol)):
+    root_8 = bisection3(0, 1, b_tol, b_tol)
+    print(f"This root converges to {root_8}.")
+
 # append to array in order
 
 root_array.append(root_3)
 root_array.append(root_7)
 root_array.append(root_1)
 root_array.append(root_4)
+root_array.append(root_8)
 root_array.append(root_6)
 root_array.append(root_2)
 root_array.append(root_5)
 """
-root_array.append()
 root_array.append()
 root_array.append()
 """
@@ -101,15 +107,22 @@ for root in root_array:
     # figure out lock box codes
     r_k_str = str(r_k)
     lock_box_str = ""
-    for i in range(10, 16):
-        if r_k_str[0] == "-":
-            lock_box_str = lock_box_str + r_k_str[i + 1]
-        else:
-            lock_box_str = lock_box_str + r_k_str[i]
+    if r_k == 0.5:
+        lock_box_str = "000000"
+    # special case 0.5
+    else:
+        for i in range(10, 16):
+            if r_k_str[0] == "-":
+                lock_box_str = lock_box_str + r_k_str[i + 1]
+            else:
+                lock_box_str = lock_box_str + r_k_str[i]
     lock_box_codes.append(lock_box_str)
 
     # chop off decimals 14 -> 4
-    r_k = truncate(r_k, 4)
+    if r_k == 0.5:
+        r_k = 0.5
+    else:
+        r_k = truncate(r_k, 4)
     chopped_roots.append(r_k)
 
     # find smaller distance
@@ -137,3 +150,5 @@ for root in root_array:
     workbook.save("Lex_will_Perish.xlsx")
     # increment counter
     root_index = root_index + 1
+print(root_array)
+print(lock_box_codes)
